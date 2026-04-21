@@ -1,6 +1,6 @@
-using WebAPI.Data.Config;
 using WebAPI.Domain.Interfaces;
 using WebAPI.Domain.Entities;
+using Microsoft.Extensions.Logging;
 namespace WebAPI.Application.Services
 {
     public class CollectDataFromUV : ICollectDataFromUV
@@ -8,7 +8,9 @@ namespace WebAPI.Application.Services
 
         private readonly IMQTTBroker _mqttBroker;
 
-        public string userId;
+        private readonly ILogger<CollectDataFromUV> _logger;
+
+        public string UserId { get; private set; }
 
         public bool IsConnected { get; private set; }
 
@@ -22,47 +24,46 @@ namespace WebAPI.Application.Services
 
         public IAppTimer _timer;
 
-        public bool validSub = true;
-
+        public bool ValidSub { get; private set; } = true;
 
         public IUVRepository _uvRepository;
 
-        public CollectDataFromUV(IAppTimer timer, IUVRepository uvRepository, IMQTTBroker mqttBroker, ISubscription subscription, IAuthClient authClient)
+        public CollectDataFromUV(IAppTimer timer, IUVRepository uvRepository, IMQTTBroker mqttBroker, ISubscription subscription, IAuthClient authClient, ILogger<CollectDataFromUV> logger)
         {
             _timer = timer;
             _uvRepository = uvRepository;
             _mqttBroker = mqttBroker;
             _subscription = subscription;
             _authClient = authClient;
-
+            _logger = logger;
+            
 
         }
-
+        
         public void Run()
         {
+
+            UserId = _authClient.UserId;
+
+            ValidSub = _subscription.CheckValidSubscription(UserId);
+
+            if (!ValidSub)
+            {
+                Error = new Error("Invalid subscription for user.", DateTime.Now, 0, ErrorCategory.SubscriptionError);
+                _logger.LogError("Invalid subscription for user {UserId}", UserId);
+                return;
+            }
+
             IsConnected = _mqttBroker.ConnectToBroker();
-
-            userId = _authClient.UserId;
-            
-            validSub = _subscription.CheckValidSubscription(userId);
-
             if (!IsConnected)
             {
                 Error = new Error("Failed to connect to MQTT broker.", DateTime.Now, 0, ErrorCategory.BrokerError);
+                _logger.LogError("Failed to connect to MQTT broker");
                 return;
             }
-            else if (!validSub)
-            {
-                Error = new Error("Invalid subscription for user.", DateTime.Now, 0, ErrorCategory.SubscriptionError);
-                return;
-            }
-            else
-            {
                 _mqttBroker.SubscribeToTopics();
                 IsFinished = _mqttBroker.CheckFinishedSignal();
-            }
         }
-
 
     }
 }

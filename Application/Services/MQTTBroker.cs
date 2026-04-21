@@ -54,6 +54,7 @@ namespace WebAPI.Application.Services
                 IsConnected = true;
 
 
+
             }
             catch (Exception ex)
             {
@@ -78,6 +79,11 @@ namespace WebAPI.Application.Services
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build()).Wait();
                 Console.WriteLine($"Subscribed to topic: {topic}");
             }
+            MqttClient.ApplicationMessageReceivedAsync += e =>
+            {
+                OnMessage(e);
+                return Task.CompletedTask;
+            };
         }
 
         public void Disconnect()
@@ -122,14 +128,13 @@ namespace WebAPI.Application.Services
             return data;
         }
 
-        public void HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
+        public void OnMessage(MqttApplicationMessageReceivedEventArgs e)
         {
             var topic = e.ApplicationMessage.Topic;
             var payload = System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
             var clientId = e.ClientId;
             Console.WriteLine($"Received message on topic '{topic}': {payload}");
             MQTTData sensorData = UnPackData(payload, topic, clientId);
-            SaveMessageToDb(sensorData);
            // _timer.Wait(_config.WaitTime); // Wait for the specified time before allowing the next message to be processed
         }
         public void SaveMessageToDb(MQTTData data)

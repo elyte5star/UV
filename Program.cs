@@ -39,7 +39,7 @@ public partial class Program
 
 
         builder.Services.AddSingleton<ICollectDataFromUV, CollectDataFromUV>();
-        builder.Services.AddSingleton<CollectDataFromUVFacade>();
+        builder.Services.AddHostedService<CollectDataFromUVFacade>();
 
         builder.Services.AddOpenApi(options =>
         {
@@ -64,12 +64,7 @@ public partial class Program
 
         app.MapGet("/", () => "Hello, Welcome to FishGuard AI!");
 
-        using (var scope = app.Services.CreateScope())
-        {
-            var facade = scope.ServiceProvider.GetRequiredService<CollectDataFromUVFacade>();
-        }
-
-
+    
         app.Run();
     }
 }

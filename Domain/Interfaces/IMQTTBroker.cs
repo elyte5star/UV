@@ -14,7 +14,7 @@ namespace WebAPI.Domain.Interfaces
         MQTTData UnPackData(string payload, string topic, string clientId);
 
 
-        void HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e);
+        void OnMessage(MqttApplicationMessageReceivedEventArgs e);
 
         void SaveMessageToDb(MQTTData data);
 

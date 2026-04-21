@@ -12,6 +12,7 @@ namespace WebAPI.Domain.Interfaces
 
         bool IsFinished { get;  }
         Error Error { get; }
+        bool ValidSub { get; }
 
     }
 }

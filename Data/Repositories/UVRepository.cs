@@ -3,17 +3,18 @@ using WebAPI.Data.Messaging;
 using WebAPI.Domain.Entities;
 using WebAPI.Domain.Interfaces;
 using WebAPI.Data.DbContext;
-using WebAPI.Data.Config;
+
 namespace WebAPI.Data.Repositories
 {
     public class UVRepository: IUVRepository
     {
         private readonly IMongoCollection<MongoMQTTData> _collection;
 
+
         public UVRepository(Dbms dbms)
         {
-            _collection = dbms.Database.GetCollection<MongoMQTTData>(dbms.DbName);
-           
+            _collection = dbms.Database.GetCollection<MongoMQTTData>("pressureData");
+
         }
 
         public async Task SaveUVData(MQTTData sensorData)

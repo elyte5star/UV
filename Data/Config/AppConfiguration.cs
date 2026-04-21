@@ -1,5 +1,3 @@
-
-
 using WebAPI.Domain.Interfaces;
 
 namespace WebAPI.Data.Config

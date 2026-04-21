@@ -42,6 +42,7 @@ public class Dbms
         {
             var client = new MongoClient(ConnectionString);
             Database = client.GetDatabase(_config.DbName);
+            Console.WriteLine($"Successfully connected to the database: {_config.DbName}");
             IsConnected = true;
         }
         catch (Exception ex)

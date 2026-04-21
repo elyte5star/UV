@@ -5,7 +5,7 @@ using WebAPI.Data.Repositories;
 
 namespace WebAPI.Application.Services
 {
-    public class CollectDataFromUVFacade
+    public class CollectDataFromUVFacade : BackgroundService
     {
         private readonly ICollectDataFromUV _collectDataFromUV;
         private readonly IAppTimer _timer;
@@ -17,10 +17,17 @@ namespace WebAPI.Application.Services
              _timer = timer;
             _uvRepository = uvRepository;
             _collectDataFromUV = collectDataFromUV;
-            _collectDataFromUV.Run();
+            
             
         }
-       
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _collectDataFromUV.Run();
+
+            return Task.CompletedTask;
+        }
+
     }
        
 }
