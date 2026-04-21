@@ -18,9 +18,9 @@ namespace WebAPI.Application.Services
             _uvRepository = uvRepository;
             _collectDataFromUV = collectDataFromUV;
             
-            
-        }
 
+
+        }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _collectDataFromUV.Run();

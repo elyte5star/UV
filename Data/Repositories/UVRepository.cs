@@ -13,7 +13,7 @@ namespace WebAPI.Data.Repositories
 
         public UVRepository(Dbms dbms)
         {
-            _collection = dbms.Database.GetCollection<MongoMQTTData>("pressureData");
+            _collection = dbms.Database.GetCollection<MongoMQTTData>("pressure");
 
         }
 

@@ -4,12 +4,14 @@ using MQTTnet;
 using MQTTnet.Protocol;
 using System.Text;
 using WebAPI.Domain.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace WebAPI.Application.Services
 {
     public class MQTTBroker : IMQTTBroker
     {
         private readonly IAppConfiguration _config;
+        private readonly ILogger<MQTTBroker> _logger;
 
         public bool IsConnected = false;
 
@@ -22,11 +24,12 @@ namespace WebAPI.Application.Services
 
         private readonly IAppTimer _timer;
 
-        public MQTTBroker(IAppTimer timer, IUVRepository uvRepository, IAppConfiguration config)
+        public MQTTBroker(IAppTimer timer, IUVRepository uvRepository, IAppConfiguration config, ILogger<MQTTBroker> logger)
         {
             _uvRepository = uvRepository;
             _timer = timer;
             _config = config;
+            _logger = logger;
         }
 
 
@@ -50,7 +53,7 @@ namespace WebAPI.Application.Services
             try
             {
                 MqttClient.ConnectAsync(mqttOptions, CancellationToken.None).Wait();
-                Console.WriteLine("Connected to MQTT broker successfully.");
+                _logger.LogInformation("Connected to MQTT broker successfully.");
                 IsConnected = true;
 
 
@@ -58,7 +61,7 @@ namespace WebAPI.Application.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to connect to MQTT broker: {ex.Message}");
+                _logger.LogError(ex, "Failed to connect to MQTT broker");
                 IsConnected = false;
             }
 
@@ -69,7 +72,7 @@ namespace WebAPI.Application.Services
         {
             if (!IsConnected || _config.BrokerTopics.Length == 0)
             {
-                Console.WriteLine("Cannot subscribe to topics because MQTT client is not connected.");
+                _logger.LogError("Cannot subscribe to topics because MQTT client is not connected.");
                 return;
             }
 
@@ -77,7 +80,7 @@ namespace WebAPI.Application.Services
             {
                 MqttClient.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic(topic)
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build()).Wait();
-                Console.WriteLine($"Subscribed to topic: {topic}");
+                _logger.LogInformation($"Subscribed to topic: {topic}");
             }
             MqttClient.ApplicationMessageReceivedAsync += e =>
             {
@@ -100,7 +103,7 @@ namespace WebAPI.Application.Services
         {
             if (!IsConnected)
             {
-                Console.WriteLine("Cannot publish message because MQTT client is not connected.");
+                _logger.LogError("Cannot publish message because MQTT client is not connected.");
                 return;
             }
 
@@ -111,12 +114,11 @@ namespace WebAPI.Application.Services
                 .Build();
 
             MqttClient.PublishAsync(message).Wait();
-            Console.WriteLine($"Published message to topic '{topic}': {payload}");
+            _logger.LogInformation($"Published message to topic '{topic}': {payload}");
         }
 
         public MQTTData UnPackData(string payload, string topic, string clientId)
         {
-            Console.WriteLine($"Unpacking data from topic '{topic}' with payload: {payload}");
             var data = new MQTTData
             {
                 Payload = payload,
@@ -124,18 +126,18 @@ namespace WebAPI.Application.Services
                 ClientId = clientId,
                 MessageDate = DateTime.UtcNow
             };
-
+            _logger.LogInformation($"Unpacked data: Topic='{data.Topic}', Payload='{data.Payload}', ClientId='{data.ClientId}', MessageDate='{data.MessageDate}'");
             return data;
         }
 
         public void OnMessage(MqttApplicationMessageReceivedEventArgs e)
-        {
+        { 
             var topic = e.ApplicationMessage.Topic;
             var payload = System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
             var clientId = e.ClientId;
-            Console.WriteLine($"Received message on topic '{topic}': {payload}");
+            _logger.LogInformation($"Received message on topic '{topic}': {payload}");
             MQTTData sensorData = UnPackData(payload, topic, clientId);
-           // _timer.Wait(_config.WaitTime); // Wait for the specified time before allowing the next message to be processed
+            SaveMessageToDb(sensorData);
         }
         public void SaveMessageToDb(MQTTData data)
         {
@@ -143,11 +145,11 @@ namespace WebAPI.Application.Services
             if (data != null)
             {
                 _uvRepository.SaveUVData(data).Wait();
-                Console.WriteLine("MQTT data saved to database.");
+                _logger.LogInformation("MQTT data saved to database.");
             }
             else
             {
-                Console.WriteLine("No MQTT data to save to database.");
+                _logger.LogError("No MQTT data to save to database.");
             }
         }
         public bool CheckFinishedSignal()

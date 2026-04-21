@@ -1,7 +1,5 @@
-
-using WebAPI.Data.Config;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using WebAPI.Domain.Interfaces;
 namespace WebAPI.Data.DbContext
 
@@ -10,6 +8,8 @@ namespace WebAPI.Data.DbContext
 public class Dbms
     {
         private readonly IAppConfiguration _config;
+
+        private readonly ILogger<Dbms> _logger;
 
         public bool IsConnected { get; private set; }
        
@@ -21,9 +21,10 @@ public class Dbms
         public string DbName { get; private set; }
     
 
-    public Dbms(IAppConfiguration config)
+    public Dbms(IAppConfiguration config, ILogger<Dbms> logger)
     {
         _config = config;
+        _logger = logger;
         IsConnected = false;
         ConnectionString = _config.DbConnStr;
         DbName = _config.DbName;
@@ -34,7 +35,7 @@ public class Dbms
     {
         if (string.IsNullOrEmpty(ConnectionString))
         {
-            Console.WriteLine("Database connection string is not provided.");
+            _logger.LogError("Database connection string is not provided.");
             IsConnected = false;
             return;
         }
@@ -42,13 +43,13 @@ public class Dbms
         {
             var client = new MongoClient(ConnectionString);
             Database = client.GetDatabase(_config.DbName);
-            Console.WriteLine($"Successfully connected to the database: {_config.DbName}");
             IsConnected = true;
-        }
+            _logger.LogInformation($"Successfully connected to the database: {_config.DbName}");
+            }
         catch (Exception ex)
         {
-            Console.WriteLine($"Failed to connect to the database: {ex.Message}");
-            IsConnected = false;
+                _logger.LogError(ex, "Failed to connect to the database");
+                IsConnected = false;
         }
     }
 

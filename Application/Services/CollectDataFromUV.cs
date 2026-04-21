@@ -36,10 +36,10 @@ namespace WebAPI.Application.Services
             _subscription = subscription;
             _authClient = authClient;
             _logger = logger;
-            
+
 
         }
-        
+
         public void Run()
         {
 
@@ -61,8 +61,8 @@ namespace WebAPI.Application.Services
                 _logger.LogError("Failed to connect to MQTT broker");
                 return;
             }
-                _mqttBroker.SubscribeToTopics();
-                IsFinished = _mqttBroker.CheckFinishedSignal();
+            _mqttBroker.SubscribeToTopics();
+            //IsFinished = _mqttBroker.CheckFinishedSignal();
         }
 
     }
