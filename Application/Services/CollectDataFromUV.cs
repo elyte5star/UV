@@ -43,6 +43,8 @@ namespace WebAPI.Application.Services
             IsConnected = _mqttBroker.ConnectToBroker();
             userId = _authClient.UserId;
             validSub = _subscription.CheckValidSubscription(userId);
+
+             Console.WriteLine("I got here in CollectDataFromUV.Run() method.");
             if (!IsConnected)
             {
                 Error = new Error("Failed to connect to MQTT broker.", DateTime.Now, 0, ErrorCategory.BrokerError);

@@ -8,5 +8,10 @@ namespace WebAPI.Domain.Interfaces
     {
        void Run();
 
+      bool IsConnected { get; }
+
+        bool IsFinished { get;  }
+        Error Error { get; }
+
     }
 }

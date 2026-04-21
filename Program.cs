@@ -22,8 +22,6 @@ AppConfiguration options = new();
 builder.Configuration.GetSection(nameof(AppConfiguration))
     .Bind(options);
 
-Console.WriteLine($"AppConfiguration.BrokerAddress={options.BrokerAddress}");
-Console.WriteLine($"AppConfiguration.DbConnStr={options.DbConnStr}");
 builder.Services.AddSingleton<IAppConfiguration>(sp => sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<AppConfiguration>>().Value);
 
 //DB
@@ -36,8 +34,8 @@ builder.Services.AddSingleton<ISubscription, Subscription>();
 builder.Services.AddSingleton<IAuthClient, AuthClient>();
 
 
-builder.Services.AddScoped<ICollectDataFromUV, CollectDataFromUV>();
-builder.Services.AddScoped<CollectDataFromUVFacade>();
+builder.Services.AddSingleton<ICollectDataFromUV, CollectDataFromUV>();
+builder.Services.AddSingleton<CollectDataFromUVFacade>();
 
 builder.Services.AddOpenApi(options =>
 {
