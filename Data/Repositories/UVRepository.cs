@@ -55,8 +55,5 @@ namespace WebAPI.Data.Repositories
                 ClientId = d.ClientId
             }).ToList();
         }
-        
-
-        
     }
 }
