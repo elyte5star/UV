@@ -23,10 +23,10 @@ public partial class Program
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
 
         AppConfiguration options = new();
-        builder.Configuration.GetSection(nameof(AppConfiguration))
-            .Bind(options);
 
-        builder.Services.AddSingleton<IAppConfiguration>(sp => sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<AppConfiguration>>().Value);
+        builder.Configuration.GetSection(nameof(AppConfiguration)).Bind(options);
+
+        builder.Services.AddSingleton<IAppConfiguration>(options);
 
         //DB
         builder.Services.AddSingleton<Dbms>();

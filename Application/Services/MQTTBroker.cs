@@ -110,6 +110,7 @@ namespace WebAPI.Application.Services
 
         public MQTTData UnPackData(string payload, string topic, string clientId)
         {
+            Console.WriteLine($"Unpacking data from topic '{topic}' with payload: {payload}");
             var data = new MQTTData
             {
                 Payload = payload,
@@ -129,7 +130,7 @@ namespace WebAPI.Application.Services
             Console.WriteLine($"Received message on topic '{topic}': {payload}");
             MQTTData sensorData = UnPackData(payload, topic, clientId);
             SaveMessageToDb(sensorData);
-            _timer.Wait(_config.WaitTime); // Wait for the specified time before allowing the next message to be processed
+           // _timer.Wait(_config.WaitTime); // Wait for the specified time before allowing the next message to be processed
         }
         public void SaveMessageToDb(MQTTData data)
         {
