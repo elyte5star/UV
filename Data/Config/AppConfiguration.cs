@@ -18,7 +18,7 @@ namespace WebAPI.Data.Config
 
         public int WaitTime { get; set; }
 
-        
+
 
     }
 }

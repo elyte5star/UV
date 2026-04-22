@@ -22,6 +22,6 @@ namespace WebAPI.Domain.Entities
         {
             return true;
         }
-        
+
     }
 }

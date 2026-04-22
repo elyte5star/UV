@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WebAPI.Data.Repositories
 {
-    public class UVRepository: IUVRepository
+    public class UVRepository : IUVRepository
     {
         private readonly IMongoCollection<MongoMQTTData> _collection;
 

@@ -64,7 +64,7 @@ public partial class Program
 
         app.MapGet("/", () => "Hello, Welcome to FishGuard AI!");
 
-    
+
         app.Run();
     }
 }

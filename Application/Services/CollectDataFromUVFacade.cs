@@ -12,7 +12,7 @@ namespace WebAPI.Application.Services
 
         public CollectDataFromUVFacade(IAppTimer timer, ICollectDataFromUV collectDataFromUV)
         {
-             _timer = timer;
+            _timer = timer;
             _collectDataFromUV = collectDataFromUV;
 
         }
@@ -24,5 +24,5 @@ namespace WebAPI.Application.Services
         }
 
     }
-       
+
 }

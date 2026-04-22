@@ -15,7 +15,7 @@ namespace WebAPI.Domain.Interfaces
 
         int WaitTime { get; }
     }
-    
+
 
 
 

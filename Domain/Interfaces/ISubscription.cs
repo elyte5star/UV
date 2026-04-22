@@ -6,6 +6,6 @@ namespace WebAPI.Domain.Interfaces
     {
         bool CheckValidSubscription(string userId);
 
-        
+
     }
 }

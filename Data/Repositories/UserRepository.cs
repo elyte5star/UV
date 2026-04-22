@@ -1,4 +1,5 @@
-namespace WebAPI.Data.Repositories{
+namespace WebAPI.Data.Repositories
+{
     public class UserRepository
     {
         // This is a placeholder for user-related database operations.

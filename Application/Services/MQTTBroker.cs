@@ -130,7 +130,7 @@ namespace WebAPI.Application.Services
         }
 
         public void OnMessage(MqttApplicationMessageReceivedEventArgs e)
-        { 
+        {
             var topic = e.ApplicationMessage.Topic;
             var payload = System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
             var clientId = e.ClientId;

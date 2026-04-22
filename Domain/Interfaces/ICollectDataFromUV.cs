@@ -6,11 +6,11 @@ namespace WebAPI.Domain.Interfaces
 {
     public interface ICollectDataFromUV
     {
-       void Run();
+        void Run();
 
-      bool IsConnected { get; }
+        bool IsConnected { get; }
 
-        bool IsFinished { get;  }
+        bool IsFinished { get; }
         Error Error { get; }
         bool ValidSub { get; }
 

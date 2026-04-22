@@ -2,7 +2,7 @@
 namespace WebAPI.Domain.Entities
 
 {
-    public class MQTTData 
+    public class MQTTData
     {
         public string Topic { get; set; }
         public string Payload { get; set; }

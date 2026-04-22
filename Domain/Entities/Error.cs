@@ -19,6 +19,6 @@ namespace WebAPI.Domain.Entities
         UnknownError
     }
 
-    
+
 
 }
