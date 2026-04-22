@@ -12,8 +12,7 @@ namespace WebAPI.Data.DbContext
 
         private readonly ILogger<Dbms> _logger;
 
-        public bool IsConnected { get; private set; }
-
+        private MongoClient _client;
 
         public string ConnectionString { get;  }
 
@@ -26,40 +25,35 @@ namespace WebAPI.Data.DbContext
         {
             _config = config;
             _logger = logger;
-            IsConnected = false;
             ConnectionString = _config.DbConnStr;
             DbName = _config.DbName;
-            ConnectToDb();
+            
         }
 
-        public void ConnectToDb()
+        public async Task ConnectToDb()
         {
             if (string.IsNullOrEmpty(ConnectionString))
             {
                 _logger.LogError("Database connection string is not provided.");
-                IsConnected = false;
+                
                 return;
             }
             try
             {
-                var client = new MongoClient(ConnectionString);
-                Database = client.GetDatabase(_config.DbName);
-                Database.RunCommandAsync((Command<BsonDocument>)"{ping:1}").GetAwaiter().GetResult();
-                IsConnected = true;
-                _logger.LogInformation($"Successfully connected to the database: {_config.DbName}");
+                _client = new MongoClient(ConnectionString);
+                Database = _client.GetDatabase(DbName);
+                await Database.RunCommandAsync((Command<BsonDocument>)"{ping:1}");
+                _logger.LogInformation($"Successfully connected to the database: {DbName}");
+             
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to connect to the database");
-                IsConnected = false;
+               
             }
         }
-
-
-        public IAppConfiguration GetConfig()
-        {
-            return _config;
-        }
+        
     }
 
 }

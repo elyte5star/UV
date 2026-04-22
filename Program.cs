@@ -15,17 +15,13 @@ public partial class Program
 
         // Configuration
         builder.Configuration.Sources.Clear();
-
         IHostEnvironment env = builder.Environment;
-
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
 
         AppConfiguration options = new();
-
         builder.Configuration.GetSection(nameof(AppConfiguration)).Bind(options);
-
         builder.Services.AddSingleton<IAppConfiguration>(options);
 
         //DB
@@ -48,11 +44,14 @@ public partial class Program
 
         });
 
-
-
         var app = builder.Build();
+        // Initialize DB at startup
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbms = scope.ServiceProvider.GetRequiredService<Dbms>();
+            dbms.ConnectToDb().GetAwaiter().GetResult(); 
+        }
 
-        // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
