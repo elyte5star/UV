@@ -3,6 +3,7 @@ using WebAPI.Data.Messaging;
 using WebAPI.Domain.Entities;
 using WebAPI.Domain.Interfaces;
 using WebAPI.Data.DbContext;
+using Microsoft.Extensions.Logging;
 
 namespace WebAPI.Data.Repositories
 {
@@ -11,9 +12,12 @@ namespace WebAPI.Data.Repositories
         private readonly IMongoCollection<MongoMQTTData> _collection;
 
 
-        public UVRepository(Dbms dbms)
+        private readonly ILogger<UVRepository> _logger;
+
+        public UVRepository(Dbms dbms, ILogger<UVRepository> logger)
         {
             _collection = dbms.Database.GetCollection<MongoMQTTData>("pressure");
+            _logger = logger;
 
         }
 

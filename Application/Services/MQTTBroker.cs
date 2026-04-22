@@ -126,7 +126,6 @@ namespace WebAPI.Application.Services
                 ClientId = clientId,
                 MessageDate = DateTime.UtcNow
             };
-            _logger.LogInformation($"Unpacked data: Topic='{data.Topic}', Payload='{data.Payload}', ClientId='{data.ClientId}', MessageDate='{data.MessageDate}'");
             return data;
         }
 
