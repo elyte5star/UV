@@ -14,7 +14,7 @@ namespace WebAPI.Data.DbContext
 
         private MongoClient _client;
 
-        public string ConnectionString { get;  }
+        public string ConnectionString { get; }
 
         public IMongoDatabase Database { get; private set; }
 
@@ -27,7 +27,7 @@ namespace WebAPI.Data.DbContext
             _logger = logger;
             ConnectionString = _config.DbConnStr;
             DbName = _config.DbName;
-            
+
         }
 
         public async Task ConnectToDb()
@@ -35,7 +35,7 @@ namespace WebAPI.Data.DbContext
             if (string.IsNullOrEmpty(ConnectionString))
             {
                 _logger.LogError("Database connection string is not provided.");
-                
+
                 return;
             }
             try
@@ -44,16 +44,17 @@ namespace WebAPI.Data.DbContext
                 Database = _client.GetDatabase(DbName);
                 await Database.RunCommandAsync((Command<BsonDocument>)"{ping:1}");
                 _logger.LogInformation($"Successfully connected to the database: {DbName}");
-             
+
 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to connect to the database");
-               
+
             }
+            await Task.Delay(_config.WaitTime);
         }
-        
+
     }
 
 }

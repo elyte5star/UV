@@ -9,7 +9,7 @@ using WebAPI.Data.Repositories;
 
 public partial class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +49,7 @@ public partial class Program
         using (var scope = app.Services.CreateScope())
         {
             var dbms = scope.ServiceProvider.GetRequiredService<Dbms>();
-            dbms.ConnectToDb().GetAwaiter().GetResult(); 
+            await dbms.ConnectToDb();
         }
 
         if (!app.Environment.IsDevelopment())

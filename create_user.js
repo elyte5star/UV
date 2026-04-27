@@ -7,6 +7,7 @@ db.users.insertOne({
     "verify": 0,
     "string": "KingOfTheWest",
     "roles": ["USER", "ADMIN"],
-    "isActive": true
+    "isActive": true,
+    "devicenNumber": "87508426-8c07-4e95-a0ba-814fefed0da4"
 });
 
