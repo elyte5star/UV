@@ -1,26 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/WebAPI.csproj": {}
+    "/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/WebAPI.csproj": {}
   },
   "projects": {
-    "/home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/WebAPI.csproj": {
+    "/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/WebAPI.csproj",
+        "projectUniqueName": "/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "/home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/WebAPI.csproj",
-        "packagesPath": "/home/idats/.nuget/packages/",
-        "outputPath": "/home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/obj/",
+        "projectPath": "/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/WebAPI.csproj",
+        "packagesPath": "/home/uti/.nuget/packages/",
+        "outputPath": "/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/idats/.nuget/NuGet/NuGet.Config"
+          "/home/uti/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "/usr/lib64/dotnet/library-packs": {},
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -81,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/10.0.104/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.105/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

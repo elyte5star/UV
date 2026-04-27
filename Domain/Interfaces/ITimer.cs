@@ -7,7 +7,7 @@ namespace WebAPI.Domain.Interfaces
         long GetElapsedTime();
         void Wait(int duration);
 
-        DateTime StartTime { get; }
-        DateTime EndTime { get; }
+        DateTime StartTime { get;set;}
+        DateTime EndTime { get;set;}
     }
 }

@@ -123,3 +123,5 @@
 /home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/obj/Debug/net10.0/ref/WebAPI.dll
 /home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/bin/Debug/net10.0/Castle.Core.dll
 /home/idats/Documents/UTI/single-courses/IIA1319 Object-Oriented Analysis and Design/task/WebAPI/bin/Debug/net10.0/Moq.dll
+/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/bin/Debug/net10.0/Castle.Core.dll
+/home/uti/Documents/single-courses/IIA1319 Object-Oriented Analysis and Design/task/UV/bin/Debug/net10.0/Moq.dll
