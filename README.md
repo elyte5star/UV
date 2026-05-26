@@ -1,1 +1,1 @@
-# See the [specification](https://github.com/elyte5star/UV/blob/master/Software_specification.pdf) and [analysis](https://github.com/elyte5star/UV/blob/master/Software_analysis_design.pdf) pdf files.
+See the [specification](https://github.com/elyte5star/UV/blob/master/specification.pdf) and [Design](https://github.com/elyte5star/UV/blob/master/design.pdf) pdf files.
